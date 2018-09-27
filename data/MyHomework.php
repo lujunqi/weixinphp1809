@@ -6,9 +6,9 @@ $sql="SELECT
 	homework_id,
 	homework_title,
 	homework_title_img,
+	homework_info,
 	DATE_FORMAT( homework_date, '%Y-%m-%d' ) homework_date,
-	homework_type,
-	( SELECT count( 1 ) FROM t_homework_follow hn WHERE hn.homework_id = h.homework_id ) homework_follow 
+	homework_type
 FROM
 	t_homework h 
 WHERE

@@ -6,17 +6,7 @@ layui.use(['form','element','layedit'], function(){
 
 function init(){
 	php();
-	dqd();
-	$("[data-bar]").click(function(){
-		var k = $(this).attr("data-bar");
-		$("[data-bar]").removeClass("active");
-		$(this).addClass("active");
-		$(".tab").hide();
-		$("#"+k).show();
-		
-		dtbar[k]();
-	});
-	$("[data-bar='jj']").trigger("click");
+	dtbar["jj"]();
 }
 function dqd(){
 	$("#dqd").click(function(){

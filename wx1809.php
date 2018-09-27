@@ -99,7 +99,9 @@ class wechatCallbackapiTest
         {
             case "subscribe":
                 $content = "欢迎关注1809班级微信公众号。 ";
-                $content .= (!empty($object->EventKey))?("\n来自二维码场景 ".str_replace("qrscene_","",$object->EventKey)):"";
+                //加入用户信息表
+				
+				
                 break;
             case "unsubscribe":
                 $content = "取消关注";

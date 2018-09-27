@@ -14,7 +14,8 @@ function add(){
 		var param = $(data.field)[0];
 		param["homework_info"] = layedit.getContent(homwwork_info_index);
 		layer.msg('加载中', {icon: 16 ,shade: 0.01});
-		$.post("data/add_Homework.php",param,function(data){
+		var url = $("#mkfrm").attr("action");
+		$.post(url,param,function(data){
 			layer.closeAll();
 			window.location.href='MkHomework.php';
 		});
@@ -24,12 +25,14 @@ function init(){
 	var form = layui.form;
 	$("#demo1").attr("src","Images/"+ hexencode($("#homework_type").val())+".jpg");
 	$("#homework_title_img").val("Images/"+ hexencode($("#homework_type").val())+".jpg");
-	
+	$("#homework_title").val(new Date().Format("yyyy-MM-dd")+$("#homework_type").val()+"作业");
 	form.on('select(homework_type)', function(data){
 		if($("#demo1").attr("data-up")!="true"){
 			$("#demo1").attr("src","Images/"+ hexencode($("#homework_type").val()) +".jpg");
-			$("#homework_title_img").val("Images/"+ hexencode($("#homework_type").val()) +".jpg");		
+			$("#homework_title_img").val("Images/"+ hexencode($("#homework_type").val()) +".jpg");
+			
 		}
+		$("#homework_title").val(new Date().Format("yyyy-MM-dd")+$("#homework_type").val()+"作业");
 	});
 	$("[data-bar]").click(function(){
    		$(".active",".hotel-bar").removeClass("active");
@@ -54,7 +57,8 @@ function hexencode(str){
 }
 var tab = {};
 tab["mk"]=function(){
-	
+	$("#mkfrm").attr("action","data/add_Homework.php");
+	$("#mk_btn").html("新增");
 };
 tab["fh"]=function(){
 	window.location.href='Homework.php';
@@ -74,8 +78,35 @@ tab["gl"]=function(){
 		cmd.data("href", function(ele, val) {
 			ele.attr("href","javascript:func_href("+val.homework_id+");");	
 		});
+		cmd.data("mod", function(ele, val) {
+			ele.attr("data-val",JSON.stringify(val));
+		});
 		cmd.preview($("#list"));
-		$("[homework_id]").click(function(){
+		$("[mod]").click(function(){
+			var val = $(this).attr("data-val");
+			$("[data-bar='mk']").trigger("click");
+			$("#mkfrm").attr("action","data/upt_Homework.php");
+			$("#mk_btn").html("修改");
+			var form = layui.form;
+			form.val("mkfrm", JSON.parse(val));
+//			homework_info
+		$("#LAY_demo1").val("val.homework_info");
+//			$("#homework_title").val("cccccccccccc");
+			var j = JSON.parse(val);
+			
+			console.log(val);
+			
+		});
+		$("[view]").click(function(){
+				var homework_id = $(this).attr("homework_id");
+			//	window.location.href='InfoHomework.php?homework_id='+homework_id;
+			var perContent = layer.open({type: 2,
+					    maxmin: true,
+			   content: 'InfoHomework.php?homework_id='+homework_id
+			});	
+			 layer.full(perContent);
+		});
+		$("[del]").click(function(){
 			var homework_id = $(this).attr("homework_id");
 
 			layer.confirm('您是否删除？', function(){

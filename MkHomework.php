@@ -45,25 +45,12 @@ if(isset($_SESSION['Uuser_type'])&& $_SESSION["Uuser_type"]!="teacher"){
 <body>
 
 <div class="container scene">
-  <div class="header">
-    <div class="title" id="titleString">布置作业</div>
-	<?php
-		if(isset($_SESSION['Uuser_type'])&& $_SESSION["Uuser_type"]=="teacher"){
-			echo '	<a href="MkHomework.php" class="back ">
-							<span class="header-icon header-icon-return"></span>
-							<span class="header-name">布置作业</span>
-					</a>';
-		}
-	?>
-  </div>
-
   <ul class="unstyled hotel-bar">
     <li class="first"> <a data-bar="mk" class="active">创建</a> </li>
     <li><a data-bar="gl">管理</a></li>
-	<li><a data-bar="fh">返回</a></li>
   </ul>
   <div id="mk" class="tab pt20">
-    <form id="mkfrm" class="layui-form layui-form-pane" onsubmit="return false;" action="xx">
+    <form id="mkfrm" name="mkfrm" lay-filter="mkfrm" class="layui-form layui-form-pane" onsubmit="return false;" action="data/add_Homework.php">
       <?php
 	echo "<input type='hidden' name='uuid' id='uuid' value='$uuid'>\n";
 	echo "<input type='hidden' name='user_id' value='$_SESSION[Uuser_id]'>\n";
@@ -73,23 +60,17 @@ if(isset($_SESSION['Uuser_type'])&& $_SESSION["Uuser_type"]!="teacher"){
       <div class="layui-form-item">
         <label class="layui-form-label">作业标题</label>
         <div class="layui-input-block">
-          <input type="text" name="homework_title" lay-verify="title" autocomplete="off" placeholder="请输入作业标题" class="layui-input">
+      	<input type="text" id="homework_title" name="homework_title" lay-verify="title" autocomplete="off" placeholder="请输入作业标题" class="layui-input">
         </div>
       </div>
-      <div class="layui-form-item">
-        <label class="layui-form-label">主题图片</label>
-        <div class="layui-input-block">
-          <button type="button" class="layui-btn" id="test1">上传图片</button>
-          <div class="layui-upload-list"> <img class="layui-upload-img" height="70" id="demo1">
-            <input type="hidden" name="homework_title_img" id="homework_title_img"/>
-            <p id="demoText"></p>
-          </div>
-        </div>
-      </div>
+      <input type="hidden" name="homework_title_img" id="homework_title_img"/>
+	  <input type="hidden" name="homework_id" id="homework_id"/>
+      
       <div class="layui-form-item">
         <label class="layui-form-label">学科</label>
         <div class="layui-input-block">
           <select name="homework_type"  lay-filter="homework_type" id="homework_type">
+		  	<option value="">请选择</option>
             <?php 
 $def_subject = $_SESSION['Uteacher_type'];
 include "data/subject.php";
@@ -100,12 +81,12 @@ include "data/subject.php";
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">作业内容</label>
         <div class="layui-input-block">
-          <textarea class="layui-textarea" name="homwwork_info" id="LAY_demo1" style="display: none"></textarea>
+          
         </div>
       </div>
       <div class="layui-form-item">
         <div class="layui-input-block">
-          <button class="layui-btn" lay-submit="" lay-filter="mk_btn">立即提交</button>
+          <button class="layui-btn" lay-submit="" id="mk_btn" lay-filter="mk_btn">新增</button>
           <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
       </div>
@@ -116,12 +97,14 @@ include "data/subject.php";
       <li>
         <div class="roomtitle">
           <div class="roomname" data-exp="map.homework_title"></div>
-          <div class="fr"> <em class="orange roomprice"> 共<span data-exp="map.homework_follow"></span>人签到 </em>
-            <button class="layui-btn layui-btn-sm" data-exp="map.homework_id" data-method="attr" data-attr="homework_id">删除</button>
+          <div class="fr"> <em class="orange roomprice"  data-exp="map.homework_date"> </em>
+            <p><button class="layui-btn layui-btn-sm" data-exp="map.homework_id" data-method="attr" data-attr="homework_id" del>删除</button>
+			<button class="layui-btn layui-btn-sm" data-exp="map" data-method="mod" mod>修改</button>
+			<button class="layui-btn layui-btn-sm" data-exp="map.homework_id" data-method="attr" data-attr="homework_id" view>查看</button></p>
           </div>
         </div>
         <img data-exp="map" data-method="img" src="Images/timg.jpg" width="100">
-		<div data-exp="map.homework_date"></div>
+
 		</li>
     </ul>
   </div>
